@@ -225,13 +225,11 @@ class Doge(object):
         else:
             stdin_lines = (l for l in sys.stdin.readlines())
 
-        rx_word = re.compile("\w+", re.UNICODE)
+        rx_word = re.compile("\n+", re.UNICODE)
 
         # If we have stdin data, we should remove everything else!
         self.words.clear()
-        word_list = [match.group(0)
-                     for line in stdin_lines
-                     for match in rx_word.finditer(line.lower())]
+        word_list = [line.lower().strip() for line in stdin_lines if line.strip() ]
         if self.ns.filter_stopwords:
             word_list = self.filter_words(
                 word_list, stopwords=wow.STOPWORDS,
